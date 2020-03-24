@@ -27,7 +27,7 @@ objects:
             value: :0
           - name: XMPP_SERVER
             value: $(PROSODY_SERVICE_HOST)
-          image: jitsi/jibri
+          image: styke/jitsi-jibri:jitsi-meet_4392
           imagePullPolicy: Always
           name: jibri
           resources: {}

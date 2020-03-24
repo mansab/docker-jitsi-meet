@@ -25,7 +25,7 @@ objects:
           env:
           - name: XMPP_SERVER
             value: $(PROSODY_SERVICE_HOST)
-          image: jitsi/jigasi
+          image: styke/jitsi-jigasi:jitsi-meet_4392
           imagePullPolicy: Always
           name: jigasi
           resources: {}

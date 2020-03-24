@@ -40,7 +40,7 @@ objects:
             periodSeconds: 3
           ports:
           - containerPort: 8888
-          image: jitsi/jicofo
+          image: styke/jitsi-jicofo:jitsi-meet_4392
           imagePullPolicy: Always
           name: jicofo
           resources: {}
