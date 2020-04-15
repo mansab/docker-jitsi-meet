@@ -1,5 +1,5 @@
 ARG JITSI_REPO=jitsi
-FROM ${JITSI_REPO}/base
+FROM mansab/jitsi-base
 
 ADD https://prosody.im/files/prosody-debian-packages.key /tmp/prosody.key
 

@@ -1,5 +1,5 @@
 ARG JITSI_REPO=jitsi
-FROM ${JITSI_REPO}/base
+FROM mansab/jitsi-base
 
 COPY rootfs/ /
 

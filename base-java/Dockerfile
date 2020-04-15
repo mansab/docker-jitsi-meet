@@ -1,5 +1,5 @@
 ARG JITSI_REPO=jitsi
-FROM ${JITSI_REPO}/base
+FROM mansab/jitsi-base
 
 ENV JAVA_SYS_PROPS "-Djava.util.prefs.userRoot=/root"
 

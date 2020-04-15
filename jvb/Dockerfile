@@ -1,5 +1,5 @@
 ARG JITSI_REPO=jitsi
-FROM ${JITSI_REPO}/base-java
+FROM mansab/jitsi-base-java
 
 RUN \
 	apt-dpkg-wrap apt-get update && \
