@@ -49,6 +49,15 @@ spec:
         - name: prosody
           image: reg-dhc.app.corpintra.net/jitsi/prosody:latest
           imagePullPolicy: Always
+          ports:
+          - name: 5222-tcp
+            containerPort: 5222
+          - name: 5269-tcp
+            containerPort: 5269
+          - name: 5280-tcp
+            containerPort: 5280
+          - name: 5347-tcp
+            containerPort: 5347
           env:
             - name: XMPP_DOMAIN
               value: meet.jitsi
@@ -84,6 +93,11 @@ spec:
         - name: web
           image: reg-dhc.app.corpintra.net/jitsi/web:latest
           imagePullPolicy: Always
+          ports:
+          - name: https
+            containerPort: 4443
+          - name: http
+            containerPort: 8080
           env:
             - name: XMPP_SERVER
               value: localhost
@@ -110,6 +124,12 @@ spec:
         - name: jvb
           image: reg-dhc.app.corpintra.net/jitsi/jvb:latest
           imagePullPolicy: Always
+          ports:
+          - name: 4443-tcp
+            containerPort: 4443
+          - name: 10000-udp
+            containerPort: 10000
+            protocol: UDP
           env:
             - name: XMPP_SERVER
               value: localhost
@@ -130,7 +150,9 @@ spec:
             - name: JVB_AUTH_USER
               value: jvb
             - name: JVB_PORT
-              value: "30300"
+              value: "10000"
+            - name: JVB_TCP_PORT
+              value: "4443"
             - name: JVB_AUTH_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -168,9 +190,9 @@ spec:
   - name: "http"
     port: 8080
     targetPort: 8080
-  - name: "https"
-    port: 4443
-    targetPort: 4443
+  # - name: "https"
+  #   port: 4443
+  #   targetPort: 4443
   selector:
     k8s-app: jitsi
 ---
@@ -206,7 +228,7 @@ spec:
         protocol: TCP
       - port: 4443
         protocol: TCP
-      - port: 30300
+      - port: 10000
         protocol: UDP
 ---
 apiVersion: v1
@@ -220,9 +242,27 @@ spec:
   type: NodePort
   externalTrafficPolicy: Cluster
   ports:
-  - port: 30300
+  - port: 10000
     protocol: UDP
-    targetPort: 30300
+    targetPort: 10000
     nodePort: 30007
+  selector:
+    k8s-app: jitsi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: jvb
+  name: jvb-tcp
+  namespace: jitsi
+spec:
+  type: NodePort
+  externalTrafficPolicy: Cluster
+  ports:
+  - port: 4443
+    protocol: TCP
+    targetPort: 4443
+    nodePort: 30008
   selector:
     k8s-app: jitsi
