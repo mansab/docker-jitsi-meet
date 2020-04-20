@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: python-server
+  name: python-server
+  namespace: jitsi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: python-server
+  template:
+    metadata:
+      labels:
+        k8s-app: python-server
+    spec:
+      containers:
+        - name: python-server
+          image: reg-dhc.app.corpintra.net/tolerant/python-server-udp:latest
+          imagePullPolicy: Always
+          ports:
+          - name: 7070-udp
+            containerPort: 7070
+            protocol: UDP
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+      securityContext:
+        runAsUser: 1000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: python-client
+  name: python-client
+  namespace: jitsi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: python-client
+  template:
+    metadata:
+      labels:
+        k8s-app: python-client
+    spec:
+      containers:
+        - name: python-client
+          image: reg-dhc.app.corpintra.net/tolerant/python-client-udp:latest
+          imagePullPolicy: Always
+          env:
+            - name: IP
+              value: 10.254.94.65
+            - name: PYTHONUNBUFFERED
+              value: "1"
+      securityContext:
+        runAsUser: 1000
+---
+# Taken from jitsi deployment.
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: jvb
+  name: jvb-udp
+  namespace: jitsi
+spec:
+  type: NodePort
+  ports:
+  - port: 7070
+    protocol: UDP
+    targetPort: 7070
+    nodePort: 30007
+  selector:
+    k8s-app: python-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-svc
+  namespace: jitsi
+spec:
+  ports:
+  - name: python
+    port: 7070
+    protocol: UDP
+    targetPort: 7070
+  selector:
+    k8s-app: python-server
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: python-np
+  namespace: jitsi
+spec:
+  podSelector:
+    matchLabels:
+      k8s-app: python-server
+  ingress:
+    - ports:
+      - port: 7070
+        protocol: UDP
