@@ -1,4 +1,5 @@
-FROM jitsi/base-java
+ARG JITSI_REPO=jitsi
+FROM mansab/jitsi-base-java
 
 RUN \
 	apt-dpkg-wrap apt-get update && \
@@ -7,5 +8,8 @@ RUN \
 
 COPY rootfs/ /
 
+RUN /fix-permissions.sh
+
 VOLUME /config
 
+USER 1001
