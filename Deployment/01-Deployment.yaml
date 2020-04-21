@@ -93,8 +93,6 @@ spec:
           image: reg-dhc.app.corpintra.net/jitsi/web:latest
           imagePullPolicy: Always
           ports:
-          - name: https
-            containerPort: 4443
           - name: http
             containerPort: 8080
           env:
@@ -145,7 +143,7 @@ spec:
             - name: JICOFO_AUTH_USER
               value: focus
             - name: JVB_TCP_HARVESTER_DISABLED
-              value: "true"
+              value: "false"
             - name: JVB_AUTH_USER
               value: jvb
             - name: JVB_PORT
