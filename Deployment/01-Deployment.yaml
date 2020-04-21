@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     k8s-app: jitsi
@@ -7,11 +7,10 @@ metadata:
   namespace: jitsi
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       k8s-app: jitsi
+  serviceName: "jitsi-meet"
   template:
     metadata:
       labels:
@@ -134,7 +133,7 @@ spec:
             - name: XMPP_SERVER
               value: localhost
             - name: DOCKER_HOST_ADDRESS
-              value: 127.0.0.1 #?
+              value: 127.0.0.1
             - name: XMPP_DOMAIN
               value: meet.jitsi
             - name: XMPP_AUTH_DOMAIN
@@ -168,7 +167,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: NAT_HARVESTER_LOCAL_ADDRESS
-              value: 127.0.0.1
+              value: jitsi-0
             - name: NAT_HARVESTER_PUBLIC_ADDRESS
               value: 141.113.50.16
       volumes:
