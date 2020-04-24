@@ -87,8 +87,6 @@ spec:
                   key: JICOFO_AUTH_PASSWORD
             - name: TZ
               value: America/Los_Angeles
-            - name: JVB_TCP_HARVESTER_DISABLED
-              value: "false"
         - name: web
           image: reg-dhc.app.corpintra.net/jitsi/web:latest
           imagePullPolicy: Always
@@ -112,8 +110,8 @@ spec:
               value: muc.meet.jitsi
             - name: TZ
               value: America/Los_Angeles
-            - name: JVB_TCP_HARVESTER_DISABLED
-              value: "true"
+            - name: DISABLE_HTTPS
+              value: "0"
           volumeMounts:
           - name: icon-vol
             mountPath: /usr/share/jitsi-meet/images/watermark.png
@@ -165,9 +163,11 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: NAT_HARVESTER_LOCAL_ADDRESS
-              value: jitsi-0.jitsi-meet.jitsi.svc.cluster.local
+              value: 10.254.251.54
             - name: NAT_HARVESTER_PUBLIC_ADDRESS
               value: 141.113.50.16
+            - name: JVB_TCP_MAPPED_PORT
+              value: "4443"
       volumes:
       - name: icon-vol
         configMap:
