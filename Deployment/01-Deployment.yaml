@@ -168,6 +168,8 @@ spec:
               value: 141.113.50.16
             - name: JVB_TCP_MAPPED_PORT
               value: "4443"
+            - name: TCP_HARVESTER_SSLTCP
+              value: "false"
       volumes:
       - name: icon-vol
         configMap:
