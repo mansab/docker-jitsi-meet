@@ -169,9 +169,9 @@ spec:
             - name: JVB_AUTH_USER
               value: jvb
             - name: JVB_PORT
-              value: "10000"
+              value: "30007"
             - name: JVB_TCP_PORT
-              value: "4443"
+              value: "30008"
             - name: JVB_AUTH_PASSWORD
               valueFrom:
                 secretKeyRef:
