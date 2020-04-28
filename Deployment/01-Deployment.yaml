@@ -48,6 +48,10 @@ spec:
         - name: prosody
           image: reg-dhc.app.corpintra.net/jitsi/prosody:latest
           imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/bash", "-c", "sleep 30 && prosodyctl --config /config/prosody.cfg.lua register \"$JITSI_LOGIN_USER\" meet.jitsi \"$JITSI_LOGIN_PASSWORD\""]
           ports:
           - name: 5222-tcp
             containerPort: 5222
@@ -62,6 +66,8 @@ spec:
               value: meet.jitsi
             - name: XMPP_AUTH_DOMAIN
               value: auth.meet.jitsi
+            - name: XMPP_GUEST_DOMAIN
+              value: guest.meet.jitsi
             - name: XMPP_MUC_DOMAIN
               value: muc.meet.jitsi
             - name: XMPP_INTERNAL_MUC_DOMAIN
@@ -87,6 +93,22 @@ spec:
                   key: JICOFO_AUTH_PASSWORD
             - name: TZ
               value: America/Los_Angeles
+            - name: ENABLE_AUTH
+              value: "1"
+            - name: ENABLE_GUESTS
+              value: "1"
+            - name: AUTH_TYPE
+              value: "internal"
+            - name: JITSI_LOGIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jitsi-credentials
+                  key: username
+            - name: JITSI_LOGIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jitsi-credentials
+                  key: password
         - name: web
           image: reg-dhc.app.corpintra.net/jitsi/web:latest
           imagePullPolicy: Always
@@ -102,6 +124,8 @@ spec:
               value: meet.jitsi
             - name: XMPP_AUTH_DOMAIN
               value: auth.meet.jitsi
+            - name: XMPP_GUEST_DOMAIN
+              value: guest.meet.jitsi
             - name: XMPP_INTERNAL_MUC_DOMAIN
               value: internal-muc.meet.jitsi
             - name: XMPP_BOSH_URL_BASE
