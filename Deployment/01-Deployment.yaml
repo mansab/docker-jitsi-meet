@@ -220,23 +220,23 @@ spec:
   #   targetPort: 4443
   selector:
     k8s-app: jitsi
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: jitsi
-  namespace: jitsi
-  annotations:
-    kubernetes.io/ingress.class: traefik-prod
-spec:
-  rules:
-  - host: ccs2sfmc.corpinter.net
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: web
-          servicePort: http
+    #---
+    #apiVersion: networking.k8s.io/v1beta1
+    #kind: Ingress
+    #metadata:
+    #  name: jitsi
+    #  namespace: jitsi
+    #  annotations:
+    #    kubernetes.io/ingress.class: traefik-prod
+    #spec:
+    #  rules:
+    #  - host: ccs2sfmc.corpinter.net
+    #    http:
+    #      paths:
+    #      - path: /
+    #        backend:
+    #          serviceName: web
+    #          servicePort: http
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
