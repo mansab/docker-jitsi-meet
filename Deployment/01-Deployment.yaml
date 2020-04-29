@@ -190,8 +190,6 @@ spec:
               value: 10.254.251.54
             - name: NAT_HARVESTER_PUBLIC_ADDRESS
               value: 141.113.50.16
-            - name: JVB_TCP_MAPPED_PORT
-              value: "4443"
             - name: TCP_HARVESTER_SSLTCP
               value: "false"
       volumes:
