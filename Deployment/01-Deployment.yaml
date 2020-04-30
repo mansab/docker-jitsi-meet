@@ -45,6 +45,8 @@ spec:
               value: America/Los_Angeles
             - name: JVB_BREWERY_MUC
               value: jvbbrewery
+            - name: ENABLE_AUTH
+              value: "1"
         - name: prosody
           image: reg-dhc.app.corpintra.net/jitsi/prosody:latest
           imagePullPolicy: Always
@@ -136,6 +138,12 @@ spec:
               value: America/Los_Angeles
             - name: DISABLE_HTTPS
               value: "0"
+            - name: ENABLE_AUTH
+              value: "1"
+            - name: ENABLE_GUESTS
+              value: "1"
+            - name: AUTH_TYPE
+              value: "internal"
           volumeMounts:
           - name: icon-vol
             mountPath: /usr/share/jitsi-meet/images/watermark.png

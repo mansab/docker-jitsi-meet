@@ -82,8 +82,8 @@ if [[ ! -f /config/config.js ]]; then
         /config/config.js
     fi
 
-    if [[ $ENABLE_AUTH -eq 1 ]]; then
-        if [[ $ENABLE_GUESTS -eq 1 ]]; then
+    if [[ $ENABLE_AUTH -eq 1 ]] || [[ $ENABLE_AUTH -eq "1" ]]; then
+        if [[ $ENABLE_GUESTS -eq 1 ]] || [[ $ENABLE_GUESTS -eq "1" ]]; then
             sed -i \
                 -e "s#// anonymousdomain:.*#anonymousdomain: '${XMPP_GUEST_DOMAIN}',#" \
                 /config/config.js
